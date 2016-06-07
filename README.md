@@ -1,4 +1,4 @@
-# CrusoeItineraryAPI
+# Crusoe Itinerary API
 Crusoe Itinerary API documentation
 
 ## Environments
@@ -56,7 +56,60 @@ The API responds with JSON encoded data and has the following structure
 }
 ```
 
-## Routes
+## API Endpoints
 
 ### [POST] `/itinerary/create`
 Send requests to this route with data describing how your itinerary should look and get back a url to our app with the visual representation of the itinerary
+
+## Errors
+1. AUTH_REQUIRED
+
+```json
+{
+	"statusCode": 401,
+	"errorType": "AUTH_REQUIRED",
+	"message": "Missing API auth header"
+}
+```
+
+2. INVALID_AUTH
+
+```json
+{
+	"statusCode": 401,
+	"errorType": "INVALID_AUTH",
+	"message": "Invalid API key"
+}
+```
+
+3. VALIDATION_ERROR
+
+```json
+{
+	"statusCode": 400,
+	"errorType": "VALIDATION_ERROR",
+	"message": "One or more validation errors occured",
+	"data": {
+		"validationErrors": [{
+		  "name": "title",
+		  "type": "required",
+		  "value": null
+		}]
+	}
+}
+```
+
+The `validationErrors` key is present only for this type of error and has the following meaning
+* `name`: property name
+* `type`: name of violated validation
+* `value`: the value that was sent
+
+4. UNEXPECTED_ERROR
+
+```json
+{
+	"statusCode": 500,
+	"errorType": "UNEXPECTED_ERROR",
+	"message": "Internal server error"
+}
+```
