@@ -184,12 +184,12 @@ There are 4 types of segments: flights, accommodation, car ride and experience.
 			+ name: Berlin (required) - name of airport
 			+ code: BXN (required) - airport code
 			+ date: 19.05.2016 (required) - string of format `DD.MM.YYYY`
-			+ time: 10:20 (required) - string of format `HH:mm`
+			+ time: 10:20 (required) - string of format `HH:mm A`
 		+ pointB (object, required) - destination
 			+ name: Berlin (required) - name of airport
 			+ code: BXN (required) - airport code
 			+ date: 19.05.2016 (required) - string of format `DD.MM.YYYY`
-			+ time: 10:20 (required) - string of format `HH:mm`
+			+ time: 10:20 (required) - string of format `HH:mm A`
 		+ layoverTime: (number, required) - amount of seconds; first flight segment doesn't need this property to be set
 
 **Accommodation**
@@ -209,9 +209,9 @@ There are 4 types of segments: flights, accommodation, car ride and experience.
 			"from" : "19.05.2016",
 			"to" : "26.05.2016"
 		},
-		bookingId: '1146179',
-		tripadvisorId: '7006624',
-		"image" : "http://aff.bstatic.com/images/hotel/max500/474/47494189.jpg"
+		"bookingId": "1146179",
+		"tripadvisorId": "7006624",
+		"image" : "http://aff.bstatic.com/images/hotel/max500/474/47494189.jpg",
 		"address" : "Olzinelles 56-58",
 		"description" : "SmartRoom Barcelona is a budget hotel located in central Barcelona, 1 km from Sants Train Station. Decorated in a modern style, each room here will provide you with a flat-screen Smart TV with satellite channels.",
 		"latitude" : 41.3720250384618,
@@ -240,6 +240,88 @@ There are 4 types of segments: flights, accommodation, car ride and experience.
 	+ longitude: 2.1370321883605357 (number, required) - not required if `bookingId` is provided
 	+ bookingId (string, optional) - if this is provided, image, description, address, latitude, longitude will be replaced by booking.com data, if the hotel is found in our db
 	+ tripadvisorId (string, optional) - if this is provided, and bookingId is not, image, description, address, latitude, longitude will be replaced by tripadvisor data. else, it's used just to get reviews info
+
+**Car ride**
+
+```json
+{
+	"type" : "carRide",
+	"milestone" : "Arrived in Barcelona",
+	"options" : [
+		{
+			"price" : {
+				"discounted" : false,
+				"currentAmount" : 15,
+				"beforeAmount" : 0
+			},
+			"title" : "Barcelona airport to Point B",
+			"serviceInfo" : "UberSelect",
+			"duration" : 1800,
+			"pointA" : {
+				"name" : "Barcelona airport",
+				"date" : "19.05.2016",
+				"time" : "09:15 AM"
+			},
+			"pointB" : {
+				"name" : "Point B",
+				"date" : "19.05.2016",
+				"time" : "09:45 AM"
+			}
+		}
+	]
+}
+```
+
++ type (enum[string], required) - Type of card
+	+ Posible values: flight, accommodation, carRide, experience
++ milestone (string, required) - text label displayed before the card (the first segment doesn't need this, because of the start milestone of the itinerary)
++ options (array) every card may have more than one option, which means the client can choose from different variants
+	+ title (string) - title of card
+	+ price (object, required) - price info; must be set if global `price.type = dynamic`; if omitted, no price tag will be shown on the card
+		+ currentAmount (number) - price of service; if global itinerary property `price.type = dynamic` this must be set
+		+ discounted (boolean) - if the price has a discount; connected to `price.beforeAmount`
+		+ beforeAmount (number) - the price before was discounted; must work in concordance with `price.discounted`; if `discounted = true` this property should be set as well 
+	+ info (string) - informational text; could be about additional services and costs
+	+ serviceInfo: UberX (string, optional) - text to describe the service
+	+ duration: 1800 (number, required) - amount of time described in seconds
+	+ pointA (object, required) - origin
+		+ name: Berlin (required) - name of airport
+		+ date: 19.05.2016 (required) - string of format `DD.MM.YYYY`
+		+ time: 10:20 (required) - string of format `HH:mm A`
+	+ pointB (object, required) - destination
+		+ name: Berlin (required) - name of airport
+		+ date: 19.05.2016 (required) - string of format `DD.MM.YYYY`
+		+ time: 10:20 (required) - string of format `HH:mm A`
+
+**Experience**
+
+```json
+{
+	"type" : "experience",
+	"milestone" : "Things to do in Berlin",
+	"options" : [
+		{
+			"title" : "Tibidabo Amusement Park",
+			"image" : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Tibidabo_%287923343396%29.jpg/1280px-Tibidabo_%287923343396%29.jpg",
+			"description" : "Tibidabo Amusement Park, a magical place to be.",
+			"_id" : "5dcc14dc8166407cd69150c4",
+			"_cardId" : "b757e45f17345ce8fd41d2de"
+		}
+	]
+}
+```
+
++ type (enum[string], required) - Type of card
+	+ Posible values: flight, accommodation, carRide, experience
++ milestone (string, required) - text label displayed before the card (the first segment doesn't need this, because of the start milestone of the itinerary)
++ options (array) every card may have more than one option, which means the client can choose from different variants
+	+ title (string) - title of card
+	+ price (object, required) - price info; must be set if global `price.type = dynamic`; if omitted, no price tag will be shown on the card
+		+ currentAmount (number) - price of service; if global itinerary property `price.type = dynamic` this must be set
+		+ discounted (boolean) - if the price has a discount; connected to `price.beforeAmount`
+		+ beforeAmount (number) - the price before was discounted; must work in concordance with `price.discounted`; if `discounted = true` this property should be set as well 
+		+ image: `https://en.wikipedia.org/wiki/Tibidabo#/media/File:Tibidabo_(7923343396).jpg` (string, required)
+		+ description (string, required)
 
 ## Errors
 
