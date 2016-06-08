@@ -303,9 +303,7 @@ There are 4 types of segments: flights, accommodation, car ride and experience.
 		{
 			"title" : "Tibidabo Amusement Park",
 			"image" : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Tibidabo_%287923343396%29.jpg/1280px-Tibidabo_%287923343396%29.jpg",
-			"description" : "Tibidabo Amusement Park, a magical place to be.",
-			"_id" : "5dcc14dc8166407cd69150c4",
-			"_cardId" : "b757e45f17345ce8fd41d2de"
+			"description" : "Tibidabo Amusement Park, a magical place to be."
 		}
 	]
 }
