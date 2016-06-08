@@ -18,9 +18,10 @@ Use the appropriate environment based on your stage
 
 
 ## Steps to access the API
-1. Go to `/auth/signup` and sign up for Crusoe
-2. Access `/manage-api` and create at least one API key
-3. Use the created API key to make requests to our servers
+1. Go to `/auth/signup` in the Web App and sign up for Crusoe
+2. Go to `/create-company` in the Web App and create a company
+3. Access `/manage-api` in the Web App and create at least one API key
+4. Use the created API key to make requests to our servers
 
 ## Authentication
 Every request made to our API should have a header named `api-key` which should contain the API key generated from your account.
@@ -241,54 +242,55 @@ There are 4 types of segments: flights, accommodation, car ride and experience.
 	+ tripadvisorId (string, optional) - if this is provided, and bookingId is not, image, description, address, latitude, longitude will be replaced by tripadvisor data. else, it's used just to get reviews info
 
 ## Errors
+
 1. AUTH_REQUIRED
 
-```json
-{
-	"statusCode": 401,
-	"errorType": "AUTH_REQUIRED",
-	"message": "Missing API auth header"
-}
-```
+	```json
+	{
+		"statusCode": 401,
+		"errorType": "AUTH_REQUIRED",
+		"message": "Missing API auth header"
+	}
+	```
 
 2. INVALID_AUTH
 
-```json
-{
-	"statusCode": 401,
-	"errorType": "INVALID_AUTH",
-	"message": "Invalid API key"
-}
-```
+	```json
+	{
+		"statusCode": 401,
+		"errorType": "INVALID_AUTH",
+		"message": "Invalid API key"
+	}
+	```
 
 3. VALIDATION_ERROR
 
-```json
-{
-	"statusCode": 400,
-	"errorType": "VALIDATION_ERROR",
-	"message": "One or more validation errors occured",
-	"data": {
-		"validationErrors": [{
-		  "name": "title",
-		  "type": "required",
-		  "value": null
-		}]
+	```json
+	{
+		"statusCode": 400,
+		"errorType": "VALIDATION_ERROR",
+		"message": "One or more validation errors occured",
+		"data": {
+			"validationErrors": [{
+			  "name": "title",
+			  "type": "required",
+			  "value": null
+			}]
+		}
 	}
-}
-```
+	```
 
-The `validationErrors` key is present only for this type of error and has the following meaning
-* `name`: property name
-* `type`: name of violated validation
-* `value`: the value that was sent
+	The `validationErrors` key is present only for this type of error and has the following meaning
+	* `name`: property name
+	* `type`: name of violated validation
+	* `value`: the value that was sent
 
 4. UNEXPECTED_ERROR
 
-```json
-{
-	"statusCode": 500,
-	"errorType": "UNEXPECTED_ERROR",
-	"message": "Internal server error"
-}
-```
+	```json
+	{
+		"statusCode": 500,
+		"errorType": "UNEXPECTED_ERROR",
+		"message": "Internal server error"
+	}
+	```
